@@ -20,30 +20,19 @@ a{color:inherit;text-decoration:none;}ul{list-style:none;}
 button{font:inherit;background:none;border:none;color:inherit;cursor:none;}
 ::selection{background:var(--teal);color:#03110e;}
 
-/* CURSOR */
-#cur-dot{position:fixed;width:6px;height:6px;background:var(--cream);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .3s;}
-#cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(240,237,230,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .35s cubic-bezier(.23,1,.32,1),height .35s cubic-bezier(.23,1,.32,1),border-color .3s;}
-body.link-hover #cur-ring{width:56px;height:56px;border-color:var(--teal);}
-body.link-hover #cur-dot{background:var(--teal);}
+#cursor-canvas{position:fixed;inset:0;z-index:9999;pointer-events:none;width:100%;height:100%;}
 
-/* LOADER */
-#loader{position:fixed;inset:0;z-index:8000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .9s ease,visibility .9s;}
+#loader{position:fixed;inset:0;z-index:8000;background:var(--bg);transition:opacity .7s ease,visibility .7s;}
 #loader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
-.load-label{font-family:var(--fm);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);}
-.load-bar{width:180px;height:1px;background:rgba(240,237,230,.1);position:relative;overflow:hidden;}
-.load-fill{position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--teal),var(--amber));animation:fill 1.6s cubic-bezier(.4,0,.2,1) forwards .1s;}
-.load-count{font-family:var(--fm);font-size:3rem;font-weight:300;color:rgba(240,237,230,.1);letter-spacing:-.02em;position:absolute;bottom:40px;right:48px;}
-@keyframes fill{to{width:100%;}}
+.load-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(240,237,230,.07);}
+.load-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--amber));transition:width 1.2s cubic-bezier(.4,0,.2,1);}
 
-/* BG */
 #bg-canvas{position:fixed;inset:0;z-index:0;width:100%;height:100%;}
 #vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 40%,transparent 15%,rgba(6,7,9,.8) 75%);}
 
-/* PROGRESS */
 #pbar{position:fixed;top:0;left:0;right:0;height:1px;z-index:500;background:rgba(240,237,230,.06);}
 #pfill{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--amber));}
 
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;align-items:center;justify-content:space-between;padding:28px 48px;transition:padding .5s,background .5s,border .5s;border-bottom:1px solid transparent;}
 nav.shrunk{padding:16px 48px;background:rgba(6,7,9,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom-color:var(--line);}
 .nav-logo{font-family:var(--fm);font-size:.82rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:10px;}
@@ -56,7 +45,6 @@ nav.shrunk{padding:16px 48px;background:rgba(6,7,9,.88);backdrop-filter:blur(16p
 .nav-cta:hover{background:var(--teal)!important;color:#03110e!important;}
 #nav-toggle{display:none;font-family:var(--fm);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
 
-/* SECTIONS */
 main{position:relative;z-index:2;}
 section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 48px;position:relative;}
 .sec-label{font-family:var(--fm);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px;margin-bottom:52px;}
@@ -65,7 +53,6 @@ section{min-height:100vh;display:flex;flex-direction:column;justify-content:cent
 .bg-num{position:absolute;right:48px;top:50%;transform:translateY(-50%);font-family:var(--fm);font-size:clamp(8rem,18vw,22rem);font-weight:700;color:rgba(240,237,230,.024);line-height:1;pointer-events:none;user-select:none;letter-spacing:-.05em;}
 h1,h2,h3{font-family:var(--fd);}
 
-/* HERO */
 #hero{justify-content:flex-end;padding-bottom:90px;}
 .hero-kicker{font-family:var(--fm);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin-bottom:28px;display:flex;align-items:center;gap:14px;}
 .hero-kicker::before{content:'';width:40px;height:1px;background:var(--teal);}
@@ -82,15 +69,11 @@ h1.hero-name em{font-style:normal;-webkit-text-stroke:1px rgba(240,237,230,.22);
 @keyframes sline{0%,100%{opacity:.4;}50%{opacity:1;}}
 .hero-meta{position:absolute;bottom:48px;left:48px;font-family:var(--fm);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,237,230,.3);display:flex;gap:24px;}
 
-/* MARQUEE */
 .marquee-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;overflow:hidden;background:rgba(11,13,18,.5);position:relative;z-index:3;}
 .marquee-track{display:flex;white-space:nowrap;will-change:transform;}
 .marquee-track span{font-family:var(--fm);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:0 32px;border-right:1px solid var(--line);}
 .marquee-track span.hi{color:var(--teal);}
-.marquee-track{display:flex;white-space:nowrap;will-change:transform;}
-/* marquee driven by JS rAF below */
 
-/* ABOUT */
 #about .inner{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
 h2.sec-title{font-size:clamp(2.8rem,7vw,7rem);font-weight:700;line-height:.95;letter-spacing:-.03em;}
 h2.sec-title em{font-style:normal;display:block;-webkit-text-stroke:1px rgba(240,237,230,.18);color:transparent;}
@@ -103,7 +86,6 @@ h2.sec-title em{font-style:normal;display:block;-webkit-text-stroke:1px rgba(240
 .stat-num span{color:var(--teal);}
 .stat-lbl{font-family:var(--fm);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
 
-/* STACK */
 #stack .inner{max-width:1200px;margin:0 auto;width:100%;}
 .stack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
 .stack-card{background:var(--bg2);padding:36px 32px;transition:background .3s;position:relative;overflow:hidden;}
@@ -115,21 +97,33 @@ h2.sec-title em{font-style:normal;display:block;-webkit-text-stroke:1px rgba(240
 .stack-tag{font-family:var(--fm);font-size:.75rem;letter-spacing:.04em;padding:6px 12px;border:1px solid var(--line);border-radius:3px;color:var(--cream);transition:border-color .25s,color .25s;}
 .stack-card:hover .stack-tag{border-color:rgba(45,226,200,.22);color:var(--teal);}
 
-/* PROJECTS */
+#education .inner{max-width:1200px;margin:0 auto;width:100%;}
+.edu-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+.edu-item{background:var(--bg2);padding:32px 36px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;transition:background .3s;position:relative;overflow:hidden;}
+.edu-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--teal),var(--amber));transform:scaleY(0);transform-origin:top;transition:transform .4s ease;}
+.edu-item:hover{background:#0f1218;}
+.edu-item:hover::before{transform:scaleY(1);}
+.edu-name{font-size:1.05rem;font-weight:600;color:var(--cream);margin-bottom:6px;}
+.edu-degree{font-size:.92rem;color:var(--muted);}
+.edu-date{font-family:var(--fm);font-size:.68rem;letter-spacing:.1em;color:var(--amber);text-transform:uppercase;white-space:nowrap;padding-top:4px;}
+
 #projects .inner{max-width:1200px;margin:0 auto;width:100%;}
 .project-list{border-top:1px solid var(--line);}
-.project-item{border-bottom:1px solid var(--line);padding:38px 0;display:grid;grid-template-columns:60px 1fr 40px;gap:28px;align-items:center;position:relative;transition:padding .35s ease;}
+.project-item{border-bottom:1px solid var(--line);padding:38px 0;display:grid;grid-template-columns:60px 1fr 40px;gap:28px;align-items:start;position:relative;transition:padding .35s ease;}
 .project-item::after{content:'';position:absolute;left:-48px;right:-48px;top:0;bottom:0;background:rgba(45,226,200,.03);opacity:0;transition:opacity .35s;}
 .project-item:hover::after{opacity:1;}
 .project-item:hover{padding:38px 16px;}
-.proj-num{font-family:var(--fm);font-size:.72rem;color:var(--muted);letter-spacing:.1em;}
-.proj-body h3{font-size:clamp(1.3rem,2.8vw,2rem);font-weight:600;margin-bottom:8px;}
-.proj-stack{font-family:var(--fm);font-size:.68rem;letter-spacing:.08em;color:var(--amber);margin-bottom:10px;}
-.proj-desc{font-size:.92rem;color:var(--muted);max-width:540px;line-height:1.65;}
-.proj-arrow{font-size:1.4rem;color:var(--muted);transition:color .25s,transform .25s;text-align:right;}
+.proj-num{font-family:var(--fm);font-size:.72rem;color:var(--muted);letter-spacing:.1em;padding-top:6px;}
+.proj-body h3{font-size:clamp(1.2rem,2.5vw,1.8rem);font-weight:600;margin-bottom:6px;}
+.proj-meta{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:10px;}
+.proj-stack{font-family:var(--fm);font-size:.68rem;letter-spacing:.08em;color:var(--amber);}
+.proj-date{font-family:var(--fm);font-size:.65rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;}
+.proj-bullets{margin-top:12px;display:flex;flex-direction:column;gap:7px;}
+.proj-bullets li{font-size:.9rem;color:var(--muted);line-height:1.6;padding-left:16px;position:relative;}
+.proj-bullets li::before{content:'—';position:absolute;left:0;color:var(--teal);font-size:.8rem;}
+.proj-arrow{font-size:1.4rem;color:var(--muted);transition:color .25s,transform .25s;text-align:right;padding-top:6px;}
 .project-item:hover .proj-arrow{color:var(--teal);transform:translateX(6px);}
 
-/* CONTACT */
 #contact{justify-content:center;align-items:center;text-align:center;background:var(--bg2);border-top:1px solid var(--line);}
 #contact .inner{max-width:900px;margin:0 auto;width:100%;}
 .contact-title{font-size:clamp(3rem,10vw,10rem);font-weight:700;line-height:.9;letter-spacing:-.03em;margin-bottom:36px;}
@@ -141,17 +135,14 @@ h2.sec-title em{font-style:normal;display:block;-webkit-text-stroke:1px rgba(240
 .email-big{display:block;font-family:var(--fm);font-size:clamp(.8rem,2vw,1.1rem);letter-spacing:.08em;color:rgba(240,237,230,.22);border-top:1px solid var(--line);padding-top:32px;transition:color .3s;}
 .email-big:hover{color:var(--cream);}
 
-/* FOOTER */
 footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:28px 48px;display:flex;justify-content:space-between;align-items:center;background:var(--bg);}
 .f-left,.f-right{font-family:var(--fm);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
 .f-right span{color:var(--teal);}
 
-/* REVEAL */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s ease;}
 .reveal.in{opacity:1;transform:none;}
 .reveal-d1{transition-delay:.1s;}.reveal-d2{transition-delay:.22s;}.reveal-d3{transition-delay:.36s;}.reveal-d4{transition-delay:.5s;}
 
-/* RESPONSIVE */
 @media(max-width:900px){
   nav{padding:20px 24px;}nav.shrunk{padding:14px 24px;}
   .nav-links{display:none;}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;right:24px;background:#0b0d12;border:1px solid var(--line);padding:20px 24px;border-radius:6px;gap:18px;}
@@ -176,13 +167,10 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:28px
 </head>
 <body>
 
-<div id="cur-dot"></div>
-<div id="cur-ring"></div>
+<canvas id="cursor-canvas" aria-hidden="true"></canvas>
 
 <div id="loader">
-  <span class="load-label">Booting up</span>
   <div class="load-bar"><div class="load-fill"></div></div>
-  <div class="load-count" id="load-count">00</div>
 </div>
 
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
@@ -193,6 +181,7 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:28px
   <a class="nav-logo" href="#hero"><span class="pulse"></span>Aazim Haris</a>
   <div class="nav-links" id="navLinks">
     <a href="#about">About</a>
+    <a href="#education">Education</a>
     <a href="#stack">Stack</a>
     <a href="#projects">Builds</a>
     <a href="#contact" class="nav-cta">Contact</a>
@@ -202,35 +191,32 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:28px
 
 <main>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-inner reveal">
-    <div class="hero-kicker">Full-Stack Developer &amp; Network Engineer</div>
+    <div class="hero-kicker">Full-Stack Web &amp; Android Developer</div>
     <h1 class="hero-name">Aazim<em>Haris</em></h1>
-    <p class="hero-role">I build things that connect — from hospital schedulers and e-commerce platforms to multi-site network infrastructures. Undergraduate at Sabaragamuwa University of Sri Lanka. Open to internships.</p>
+    <p class="hero-role">I build things end-to-end — from hospital management systems and e-commerce platforms to flood relief trackers and digital identity systems. Undergraduate at Sabaragamuwa University of Sri Lanka. Open to internships.</p>
     <div class="hero-actions">
       <a href="#projects" class="btn-primary">View My Builds</a>
-      <a href="#contact" class="btn-ghost">Get in touch →</a>
+      <a href="#contact" class="btn-ghost">Get in touch &rarr;</a>
     </div>
   </div>
   <div class="bg-num" aria-hidden="true">00</div>
   <div class="hero-scroll" aria-hidden="true">Scroll</div>
   <div class="hero-meta">
-    <span>Sabaragamuwa University · Sri Lanka</span>
-    <span>——</span>
+    <span>Kandy, Central Province &middot; Sri Lanka</span>
+    <span>&mdash;&mdash;</span>
     <span>Open to opportunities</span>
   </div>
 </section>
 
-<!-- MARQUEE 1 -->
 <div class="marquee-strip" aria-hidden="true">
   <div class="marquee-track">
-    <span class="hi">Full-Stack</span><span>Node.js</span><span>PHP</span><span>Java</span><span>Python</span><span class="hi">Android</span><span>MySQL</span><span>MongoDB</span><span class="hi">Networking</span><span>OSPF · BGP</span><span>VLSM</span><span>Git</span><span>Linux</span><span class="hi">AI / ML</span><span>Three.js</span>
-    <span class="hi">Full-Stack</span><span>Node.js</span><span>PHP</span><span>Java</span><span>Python</span><span class="hi">Android</span><span>MySQL</span><span>MongoDB</span><span class="hi">Networking</span><span>OSPF · BGP</span><span>VLSM</span><span>Git</span><span>Linux</span><span class="hi">AI / ML</span><span>Three.js</span>
+    <span class="hi">Full-Stack</span><span>Node.js</span><span>PHP</span><span>Java</span><span>Python</span><span class="hi">Android</span><span>MySQL</span><span>MongoDB</span><span class="hi">Git</span><span>Linux</span><span class="hi">AI / ML</span><span>Java Swing</span><span>Express.js</span><span class="hi">MVC</span><span>REST APIs</span>
+    <span class="hi">Full-Stack</span><span>Node.js</span><span>PHP</span><span>Java</span><span>Python</span><span class="hi">Android</span><span>MySQL</span><span>MongoDB</span><span class="hi">Git</span><span>Linux</span><span class="hi">AI / ML</span><span>Java Swing</span><span>Express.js</span><span class="hi">MVC</span><span>REST APIs</span>
   </div>
 </div>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="bg-num" aria-hidden="true">01</div>
   <div class="inner">
@@ -245,27 +231,49 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:28px
       </div>
     </div>
     <div class="about-body reveal reveal-d1">
-      <p>I've been <strong>hands-on with computers since childhood</strong> — that early curiosity grew into a habit of building things from scratch, end to end.</p>
-      <p>I'm an undergraduate at <strong>Sabaragamuwa University of Sri Lanka</strong>, pursuing a Higher Diploma in IT in affiliation with SLIIT City University. My work cuts across full-stack web development, <strong>Android</strong>, and <strong>enterprise networking</strong>, with a growing interest in <strong>AI &amp; Machine Learning</strong>.</p>
+      <p>I've been <strong>hands-on with computers since childhood</strong> — that early curiosity has grown into real experience building software from scratch, end to end.</p>
+      <p>I'm an undergraduate at <strong>Sabaragamuwa University of Sri Lanka</strong> pursuing a BSc Honours in Computer Science &amp; Technology, and a Higher Diploma in IT in affiliation with <strong>SLIIT City University</strong> (Feb 2025&ndash;Feb 2027). My work cuts across full-stack web development (PHP, MySQL, Node.js, Express, MongoDB), <strong>Android development</strong> (Java, SQLite), with a growing interest in <strong>AI &amp; Machine Learning</strong>.</p>
       <p>Outside of code I shoot macro photography and hike Sri Lankan trails.</p>
-      <span class="about-tag">→ Available for internships &amp; entry-level roles</span>
+      <span class="about-tag">&rarr; Available for internships &amp; entry-level roles</span>
     </div>
   </div>
 </section>
 
-<!-- MARQUEE 2 -->
 <div class="marquee-strip marquee-rev" aria-hidden="true">
   <div class="marquee-track">
-    <span>Macro Photography</span><span class="hi">Sri Lankan Trails</span><span>Narangala · Badulla</span><span class="hi">Kurunegala</span><span>Cisco Packet Tracer</span><span class="hi">Multi-Site Networks</span><span>NovaCivic Smart City</span><span>HSRP</span><span class="hi">VLANs</span>
-    <span>Macro Photography</span><span class="hi">Sri Lankan Trails</span><span>Narangala · Badulla</span><span class="hi">Kurunegala</span><span>Cisco Packet Tracer</span><span class="hi">Multi-Site Networks</span><span>NovaCivic Smart City</span><span>HSRP</span><span class="hi">VLANs</span>
+    <span>Macro Photography</span><span class="hi">Sri Lankan Trails</span><span>Narangala &middot; Badulla</span><span class="hi">Kurunegala</span><span>Hospital Systems</span><span class="hi">E-Commerce</span><span>Flood Relief</span><span class="hi">Digital Identity</span><span>Open to Internships</span>
+    <span>Macro Photography</span><span class="hi">Sri Lankan Trails</span><span>Narangala &middot; Badulla</span><span class="hi">Kurunegala</span><span>Hospital Systems</span><span class="hi">E-Commerce</span><span>Flood Relief</span><span class="hi">Digital Identity</span><span>Open to Internships</span>
   </div>
 </div>
 
-<!-- STACK -->
-<section id="stack">
+<section id="education">
   <div class="bg-num" aria-hidden="true">02</div>
   <div class="inner">
-    <div class="sec-label"><span class="sec-num">02</span> Stack</div>
+    <div class="sec-label"><span class="sec-num">02</span> Education</div>
+    <h2 class="sec-title reveal" style="margin-bottom:52px;">Where I<em>learned.</em></h2>
+    <div class="edu-list reveal reveal-d1">
+      <div class="edu-item">
+        <div>
+          <div class="edu-name">Sabaragamuwa University of Sri Lanka</div>
+          <div class="edu-degree">Bachelor of Science Honours Degree in Computer Science and Technology</div>
+        </div>
+        <div class="edu-date">Current</div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <div class="edu-name">SLIIT City University</div>
+          <div class="edu-degree">Higher National Diploma, Information Technology</div>
+        </div>
+        <div class="edu-date">Feb 2025 &ndash; Feb 2027</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="bg-num" aria-hidden="true">03</div>
+  <div class="inner">
+    <div class="sec-label"><span class="sec-num">03</span> Stack</div>
     <h2 class="sec-title reveal" style="margin-bottom:52px;">What I<em>build with.</em></h2>
     <div class="stack-grid reveal reveal-d1">
       <div class="stack-card">
@@ -285,10 +293,6 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:28px
         <div class="stack-tags"><span class="stack-tag">MySQL</span><span class="stack-tag">MongoDB</span><span class="stack-tag">SQLite</span><span class="stack-tag">LocalStorage</span></div>
       </div>
       <div class="stack-card">
-        <h4>Networking</h4>
-        <div class="stack-tags"><span class="stack-tag">VLSM</span><span class="stack-tag">OSPF · EIGRP · BGP</span><span class="stack-tag">ACLs</span><span class="stack-tag">HSRP · VLANs</span><span class="stack-tag">Packet Tracer</span></div>
-      </div>
-      <div class="stack-card">
         <h4>Tooling</h4>
         <div class="stack-tags"><span class="stack-tag">Git / GitHub</span><span class="stack-tag">Linux</span><span class="stack-tag">XAMPP</span><span class="stack-tag">DSA</span><span class="stack-tag">UML</span></div>
       </div>
@@ -296,83 +300,111 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:28px
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects">
-  <div class="bg-num" aria-hidden="true">03</div>
+  <div class="bg-num" aria-hidden="true">04</div>
   <div class="inner">
-    <div class="sec-label"><span class="sec-num">03</span> Builds</div>
+    <div class="sec-label"><span class="sec-num">04</span> Builds</div>
     <h2 class="sec-title reveal" style="margin-bottom:52px;">Selected<em>projects.</em></h2>
     <div class="project-list">
+
       <div class="project-item reveal">
         <span class="proj-num">01</span>
         <div class="proj-body">
-          <h3>Medicare Plus</h3>
-          <div class="proj-stack">Java · Swing · MVC Architecture</div>
-          <p class="proj-desc">Hospital patient &amp; appointment management desktop app. Led the scheduling module and monthly reporting engine — doctor performance analytics, status tracking, and automated notifications.</p>
+          <h3>City Walk &mdash; Footwear E-Commerce Platform</h3>
+          <div class="proj-meta">
+            <span class="proj-stack">JavaScript &middot; HTML &middot; CSS &middot; LocalStorage</span>
+            <span class="proj-date">Nov 2025 &ndash; Dec 2025</span>
+          </div>
+          <ul class="proj-bullets">
+            <li>Built a full front-end e-commerce website (64 JS functions) for a footwear retail concept as part of a Web Application Development module</li>
+            <li>Implemented a shopping cart with persistent storage (localStorage), quantity controls and checkout flow</li>
+            <li>Built client-side user authentication (sign up/login) with order history tracking</li>
+            <li>Developed dynamic product search, filtering (category, price, brand), and sorting</li>
+            <li>Designed reusable UI components &mdash; product cards, modals, notifications &mdash; with responsive mobile menu and animations</li>
+          </ul>
         </div>
-        <span class="proj-arrow">→</span>
+        <span class="proj-arrow">&rarr;</span>
       </div>
+
       <div class="project-item reveal reveal-d1">
         <span class="proj-num">02</span>
         <div class="proj-body">
-          <h3>City Walk</h3>
-          <div class="proj-stack">Vanilla JS · HTML/CSS · LocalStorage</div>
-          <p class="proj-desc">64-function e-commerce platform for a footwear brand. Persistent cart, client-side auth with order history, dynamic filtering, search, and sorting across the full catalog.</p>
+          <h3>Flood Relief &amp; Inventory Management System</h3>
+          <div class="proj-meta">
+            <span class="proj-stack">PHP &middot; MySQL &middot; XAMPP</span>
+            <span class="proj-date">Dec 2025 &ndash; Dec 2025</span>
+          </div>
+          <ul class="proj-bullets">
+            <li>Built a relief-distribution and inventory tracking system to coordinate emergency aid during flood disasters</li>
+            <li>Designed a relational database to track donors, stock levels, and distribution records</li>
+            <li>Built an admin dashboard for real-time inventory and request management</li>
+            <li>Implemented CRUD operations and reporting for relief coordinators</li>
+          </ul>
         </div>
-        <span class="proj-arrow">→</span>
+        <span class="proj-arrow">&rarr;</span>
       </div>
+
       <div class="project-item reveal reveal-d2">
         <span class="proj-num">03</span>
         <div class="proj-body">
-          <h3>NDI Registration System</h3>
-          <div class="proj-stack">Node.js · Express · MongoDB</div>
-          <p class="proj-desc">Digital identity registration platform with RESTful APIs for user verification workflows. Structured MongoDB schemas and backend validation for data integrity.</p>
+          <h3>Medicare Plus &mdash; Hospital Patient &amp; Appointment Management</h3>
+          <div class="proj-meta">
+            <span class="proj-stack">Java &middot; Swing (GUI) &middot; MVC Architecture</span>
+            <span class="proj-date">Dec 2025 &ndash; Dec 2025</span>
+          </div>
+          <ul class="proj-bullets">
+            <li>Team project building a hospital management desktop app using MVC design &mdash; model classes, manager classes for business logic, Swing panels for UI</li>
+            <li>Led the appointment scheduling module and monthly reporting system</li>
+            <li>Built the scheduling system linking patients and doctors with date/time handling via Java's LocalDate API</li>
+            <li>Developed a monthly reporting engine generating appointment summaries, doctor performance analytics, and patient visit statistics</li>
+            <li>Worked across a multi-person codebase with separate modules for patient records, doctor management, status tracking, and notifications</li>
+          </ul>
         </div>
-        <span class="proj-arrow">→</span>
+        <span class="proj-arrow">&rarr;</span>
       </div>
+
       <div class="project-item reveal reveal-d3">
         <span class="proj-num">04</span>
         <div class="proj-body">
-          <h3>Flood Relief &amp; Inventory System</h3>
-          <div class="proj-stack">PHP · MySQL · XAMPP</div>
-          <p class="proj-desc">Relief distribution and inventory tracker for flood disaster coordination. Donor tracking, live stock levels, and an admin dashboard for on-the-ground coordinators.</p>
+          <h3>NDI Registration System</h3>
+          <div class="proj-meta">
+            <span class="proj-stack">Node.js &middot; Express.js &middot; MongoDB</span>
+            <span class="proj-date">Dec 2025 &ndash; Dec 2025</span>
+          </div>
+          <ul class="proj-bullets">
+            <li>Developed a digital identity registration platform as an Emerging Technologies &amp; Frameworks assignment</li>
+            <li>Built RESTful APIs for user registration and verification workflows</li>
+            <li>Designed MongoDB schemas for secure, structured identity data storage</li>
+            <li>Implemented backend validation and error handling for data integrity</li>
+          </ul>
         </div>
-        <span class="proj-arrow">→</span>
+        <span class="proj-arrow">&rarr;</span>
       </div>
-      <div class="project-item reveal reveal-d4">
-        <span class="proj-num">05</span>
-        <div class="proj-body">
-          <h3>NovaCivic Smart City Network</h3>
-          <div class="proj-stack">Cisco Packet Tracer · OSPF / EIGRP / BGP · VLSM</div>
-          <p class="proj-desc">Multi-site enterprise network across 6 Sri Lankan locations. VLSM subnetting, OSPF/EIGRP/BGP routing, HSRP failover, VLANs, ACLs, and port security.</p>
-        </div>
-        <span class="proj-arrow">→</span>
-      </div>
+
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
-  <div class="bg-num" aria-hidden="true">04</div>
+  <div class="bg-num" aria-hidden="true">05</div>
   <div class="inner">
-    <div class="sec-label" style="justify-content:center;"><span class="sec-num">04</span>&nbsp;Handshake</div>
+    <div class="sec-label" style="justify-content:center;"><span class="sec-num">05</span>&nbsp;Handshake</div>
     <div class="contact-title reveal">Let's<em>connect.</em></div>
     <p class="contact-sub reveal reveal-d1">Open to internship and entry-level developer roles. I build fast, document well, and reply even faster.</p>
     <div class="contact-links reveal reveal-d2">
-      <a class="btn-primary" href="mailto:your-email@example.com">Email me</a>
-      <a class="btn-link" href="https://github.com/MohomedAmri05" target="_blank" rel="noopener">GitHub</a>
-      <a class="btn-link" href="https://MohomedAmri05.github.io" target="_blank" rel="noopener">Portfolio</a>
+      <a class="btn-primary" href="mailto:harisaazim@gmail.com">Email me</a>
+      <a class="btn-link" href="https://github.com/Aazim-Haris" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn-link" href="https://Aazim-Haris.github.io" target="_blank" rel="noopener">Portfolio</a>
       <a class="btn-link" href="#" target="_blank" rel="noopener">LinkedIn</a>
     </div>
-    <a class="email-big reveal reveal-d3" href="mailto:your-email@example.com">your-email@example.com</a>
+    <a class="email-big reveal reveal-d3" href="mailto:harisaazim@gmail.com">harisaazim@gmail.com</a>
   </div>
 </section>
 
 </main>
 
 <footer>
-  <span class="f-left">© 2026 Aazim Haris — All rights reserved</span>
+  <span class="f-left">&copy; 2026 Aazim Haris &mdash; All rights reserved</span>
   <span class="f-right">Built with <span>curiosity</span> &amp; Three.js</span>
 </footer>
 
@@ -382,169 +414,160 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:28px
 'use strict';
 
 /* LOADER */
-var loader  = document.getElementById('loader');
-var countEl = document.getElementById('load-count');
-var n = 0;
-var iv = setInterval(function(){
-  n = Math.min(n + Math.floor(Math.random()*12)+4, 100);
-  if(countEl) countEl.textContent = (n<10?'0':'')+n;
-  if(n>=100) clearInterval(iv);
-}, 60);
-window.addEventListener('load', function(){
-  setTimeout(function(){ if(loader) loader.classList.add('hidden'); }, 1700);
+var loader=document.getElementById('loader');
+var loadFill=document.querySelector('.load-fill');
+setTimeout(function(){if(loadFill)loadFill.style.width='100%';},60);
+window.addEventListener('load',function(){
+  setTimeout(function(){if(loader)loader.classList.add('hidden');},1400);
 });
 
-/* CURSOR */
-var dot  = document.getElementById('cur-dot');
-var ring = document.getElementById('cur-ring');
-var mx=0,my=0,rx=0,ry=0;
-if(dot && ring){
-  window.addEventListener('mousemove',function(e){
-    mx=e.clientX; my=e.clientY;
-    dot.style.left=mx+'px'; dot.style.top=my+'px';
-  },{passive:true});
-  (function rl(){
-    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    requestAnimationFrame(rl);
+/* SMOOTH TRAIL CURSOR */
+var cc=document.getElementById('cursor-canvas');
+if(cc){
+  var ctx=cc.getContext('2d');
+  cc.width=window.innerWidth;cc.height=window.innerHeight;
+  window.addEventListener('resize',function(){cc.width=window.innerWidth;cc.height=window.innerHeight;});
+  var mx=-200,my=-200;
+  window.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;},{passive:true});
+  var trail=[],MAX_PTS=12;
+  (function tloop(){
+    requestAnimationFrame(tloop);
+    cc.width=cc.width;
+    trail.push({x:mx,y:my});
+    if(trail.length>MAX_PTS)trail.shift();
+    var n=trail.length;
+    if(n<2)return;
+    for(var i=1;i<n;i++){
+      var ratio=i/n,alpha=ratio*ratio;
+      var p0=trail[i-1];
+      var ax=i>1?(trail[i-2].x+p0.x)/2:p0.x;
+      var ay=i>1?(trail[i-2].y+p0.y)/2:p0.y;
+      var bx=(p0.x+trail[i].x)/2,by=(p0.y+trail[i].y)/2;
+      ctx.beginPath();ctx.moveTo(ax,ay);
+      ctx.quadraticCurveTo(p0.x,p0.y,bx,by);
+      ctx.strokeStyle='rgba(45,226,200,'+(alpha*0.18)+')';
+      ctx.lineWidth=3*ratio+0.5;ctx.lineCap='round';ctx.lineJoin='round';
+      ctx.shadowColor='#2de2c8';ctx.shadowBlur=6*ratio;ctx.stroke();
+      ctx.beginPath();ctx.moveTo(ax,ay);
+      ctx.quadraticCurveTo(p0.x,p0.y,bx,by);
+      ctx.strokeStyle='rgba(180,255,245,'+(alpha*0.55)+')';
+      ctx.lineWidth=0.8*ratio+0.2;ctx.shadowBlur=2;ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+    var tip=trail[n-1];
+    ctx.beginPath();ctx.arc(tip.x,tip.y,1.8,0,Math.PI*2);
+    ctx.fillStyle='#fff';ctx.shadowColor='#2de2c8';ctx.shadowBlur=10;
+    ctx.fill();ctx.shadowBlur=0;
   })();
-  document.querySelectorAll('a,button').forEach(function(el){
-    el.addEventListener('mouseenter',function(){document.body.classList.add('link-hover');});
-    el.addEventListener('mouseleave',function(){document.body.classList.remove('link-hover');});
-  });
-  document.addEventListener('mouseleave',function(){dot.style.opacity='0';ring.style.opacity='0';});
-  document.addEventListener('mouseenter',function(){dot.style.opacity='1';ring.style.opacity='1';});
 }
 
 /* NAV */
-var nav   = document.getElementById('mainNav');
-var togBtn= document.getElementById('nav-toggle');
-var navLk = document.getElementById('navLinks');
-window.addEventListener('scroll',function(){
-  if(nav) nav.classList.toggle('shrunk',window.scrollY>60);
-},{passive:true});
-if(togBtn && navLk){
-  togBtn.addEventListener('click',function(){
-    navLk.classList.toggle('open');
-  });
-  navLk.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click',function(){navLk.classList.remove('open');});
-  });
+var nav=document.getElementById('mainNav');
+var togBtn=document.getElementById('nav-toggle');
+var navLk=document.getElementById('navLinks');
+window.addEventListener('scroll',function(){if(nav)nav.classList.toggle('shrunk',window.scrollY>60);},{passive:true});
+if(togBtn&&navLk){
+  togBtn.addEventListener('click',function(){navLk.classList.toggle('open');});
+  navLk.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){navLk.classList.remove('open');});});
 }
 
 /* PROGRESS */
-var pfill = document.getElementById('pfill');
+var pfill=document.getElementById('pfill');
 window.addEventListener('scroll',function(){
-  if(!pfill) return;
+  if(!pfill)return;
   var h=document.documentElement.scrollHeight-window.innerHeight;
   pfill.style.width=(h>0?(window.scrollY/h*100):0)+'%';
 },{passive:true});
 
 /* REVEAL */
-var revs = document.querySelectorAll('.reveal');
+var revs=document.querySelectorAll('.reveal');
 if('IntersectionObserver' in window){
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
-    });
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
   },{threshold:0.1});
   revs.forEach(function(el){io.observe(el);});
 }else{revs.forEach(function(el){el.classList.add('in');});}
 
-/* JS MARQUEE — steady speed, immune to frame rate */
-var mqTracks = document.querySelectorAll('.marquee-track');
-var mqX = [];
-mqTracks.forEach(function(){ mqX.push(0); });
-var mqPrev = performance.now();
-function mqLoop(now){
-  var dt = Math.min((now - mqPrev) / 1000, 0.05); /* cap delta so tab-switch can't jump */
-  mqPrev = now;
-  mqTracks.forEach(function(track, i){
-    var dir = track.closest('.marquee-rev') ? 1 : -1;
-    mqX[i] += dir * 60 * dt; /* 60px/s constant */
-    /* reset at half-width for seamless loop */
-    var half = track.scrollWidth / 2;
-    if(mqX[i] <= -half) mqX[i] += half;
-    if(mqX[i] >= 0)     mqX[i] -= half;
-    track.style.transform = 'translateX('+mqX[i]+'px)';
+/* MARQUEE */
+var mqTracks=document.querySelectorAll('.marquee-track');
+var mqX=[];
+mqTracks.forEach(function(){mqX.push(0);});
+var mqPrev=performance.now();
+(function mqLoop(now){
+  var dt=Math.min((now-mqPrev)/1000,0.05);
+  mqPrev=now;
+  mqTracks.forEach(function(track,i){
+    var dir=track.closest('.marquee-rev')?1:-1;
+    mqX[i]+=dir*50*dt;
+    var half=track.scrollWidth/2;
+    if(mqX[i]<=-half)mqX[i]+=half;
+    if(mqX[i]>=0)mqX[i]-=half;
+    track.style.transform='translateX('+mqX[i]+'px)';
   });
   requestAnimationFrame(mqLoop);
-}
-requestAnimationFrame(mqLoop);
+})(performance.now());
 
 /* THREE.JS */
-var canvas = document.getElementById('bg-canvas');
-if(!canvas||typeof THREE==='undefined') return;
-var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-var renderer = new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+var canvas=document.getElementById('bg-canvas');
+if(!canvas||typeof THREE==='undefined')return;
+var rm=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
 renderer.setSize(window.innerWidth,window.innerHeight);
-var scene  = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,0.1,200);
+var scene=new THREE.Scene();
+var camera=new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,0.1,200);
 camera.position.set(0,0,22);
-var mob = window.innerWidth<760;
-var NC  = mob?40:90;
-var R   = 11;
-var pos = [];
+var mob=window.innerWidth<760,NC=mob?40:90,R=11,pos=[];
 for(var i=0;i<NC;i++){
-  var phi  = Math.acos(1-2*(i+.5)/NC);
-  var th   = Math.PI*(1+Math.sqrt(5))*i;
-  var scl  = R*(.45+Math.random()*.6);
-  pos.push(scl*Math.sin(phi)*Math.cos(th), scl*Math.sin(phi)*Math.sin(th)*.6, scl*Math.cos(phi));
+  var phi=Math.acos(1-2*(i+.5)/NC),th=Math.PI*(1+Math.sqrt(5))*i;
+  var scl=R*(.45+Math.random()*.6);
+  pos.push(scl*Math.sin(phi)*Math.cos(th),scl*Math.sin(phi)*Math.sin(th)*.6,scl*Math.cos(phi));
 }
-var ptG = new THREE.BufferGeometry();
+var ptG=new THREE.BufferGeometry();
 ptG.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
-var ptM = new THREE.PointsMaterial({color:0x2de2c8,size:.1,transparent:true,opacity:.7,sizeAttenuation:true});
-var pts = new THREE.Points(ptG,ptM);
-scene.add(pts);
+var ptM=new THREE.PointsMaterial({color:0x2de2c8,size:.1,transparent:true,opacity:.7,sizeAttenuation:true});
+var pts=new THREE.Points(ptG,ptM);
 var lp=[];
-for(var a=0;a<NC;a++){for(var b=a+1;b<NC;b++){var dx=pos[a*3]-pos[b*3],dy=pos[a*3+1]-pos[b*3+1],dz=pos[a*3+2]-pos[b*3+2];if(Math.sqrt(dx*dx+dy*dy+dz*dz)<4.5){lp.push(pos[a*3],pos[a*3+1],pos[a*3+2],pos[b*3],pos[b*3+1],pos[b*3+2]);}}}
+for(var a=0;a<NC;a++){
+  for(var b=a+1;b<NC;b++){
+    var dx=pos[a*3]-pos[b*3],dy=pos[a*3+1]-pos[b*3+1],dz=pos[a*3+2]-pos[b*3+2];
+    if(Math.sqrt(dx*dx+dy*dy+dz*dz)<4.5){lp.push(pos[a*3],pos[a*3+1],pos[a*3+2],pos[b*3],pos[b*3+1],pos[b*3+2]);}
+  }
+}
 var lG=new THREE.BufferGeometry();
 lG.setAttribute('position',new THREE.Float32BufferAttribute(lp,3));
 var lM=new THREE.LineBasicMaterial({color:0x2de2c8,transparent:true,opacity:.07});
 var ls=new THREE.LineSegments(lG,lM);
-scene.add(ls);
-
-/* group so rotation applies to both */
-var netGroup = new THREE.Group();
-netGroup.add(pts); netGroup.add(ls);
+var netGroup=new THREE.Group();
+netGroup.add(pts);netGroup.add(ls);
 scene.add(netGroup);
-
 var TEAL=new THREE.Color(0x2de2c8),AMBER=new THREE.Color(0xffb454),mix=new THREE.Color();
 var mxT=0,myT=0,mxS=0,myS=0,paused=false;
-/* scroll spin */
-var lastSY=window.scrollY, scrollVel=0, spinY=0, spinX=0;
-window.addEventListener('scroll',function(){
-  var dy=window.scrollY-lastSY;
-  scrollVel += dy * 0.018; /* strong enough to be visible */
-  lastSY=window.scrollY;
-},{passive:true});
+var lastSY=window.scrollY,scrollVel=0,spinY=0,spinX=0,targetSpinY=0;
+window.addEventListener('scroll',function(){var dy=window.scrollY-lastSY;scrollVel+=dy*0.008;lastSY=window.scrollY;},{passive:true});
 window.addEventListener('mousemove',function(e){mxT=(e.clientX/window.innerWidth-.5)*2;myT=(e.clientY/window.innerHeight-.5)*2;},{passive:true});
 document.addEventListener('visibilitychange',function(){paused=document.hidden;});
 function gsp(){var h=document.documentElement.scrollHeight-window.innerHeight;return h>0?Math.min(1,window.scrollY/h):0;}
-var prev3 = performance.now();
+var prev3=performance.now();
 (function loop(now){
   requestAnimationFrame(loop);
-  if(paused) return;
-  var dt = Math.min((now - prev3)/1000, 0.05);
-  prev3 = now;
+  if(paused)return;
+  var dt=Math.min((now-prev3)/1000,0.05);prev3=now;
   var p=gsp();
   mix.copy(TEAL).lerp(AMBER,p);
-  ptM.color.copy(mix); lM.color.copy(mix);
-  lM.opacity=.06+p*.3; ptM.opacity=.4+p*.5; ptM.size=.08+p*.1;
-  /* inertia — velocity decays to 0 over ~0.8s */
-  scrollVel *= 0.90;
-  /* accumulate spin using deltaTime so speed is frame-rate independent */
-  spinY += (scrollVel + 0.25) * dt; /* 0.25 rad/s idle drift */
-  spinX += scrollVel * 0.3 * dt;
-  netGroup.rotation.y = spinY;
-  netGroup.rotation.x = Math.sin(spinX) * 0.4;
+  ptM.color.copy(mix);lM.color.copy(mix);
+  lM.opacity=.06+p*.3;ptM.opacity=.4+p*.5;ptM.size=.08+p*.1;
+  scrollVel*=0.93;
+  targetSpinY+=(scrollVel+0.18)*dt;
+  spinY+=(targetSpinY-spinY)*0.06;
+  spinX+=scrollVel*0.25*dt;
+  netGroup.rotation.y=spinY;
+  netGroup.rotation.x=Math.sin(spinX)*0.3;
   if(!rm){
-    mxS+=(mxT-mxS)*.04; myS+=(myT-myS)*.04;
-    var t = performance.now()/1000;
-    var ang=t*.015, r=20-p*7;
-    camera.position.x=Math.sin(ang)*r+mxS*1.8;
-    camera.position.y=Math.cos(t*.02)*.5-myS*1.2;
+    mxS+=(mxT-mxS)*.035;myS+=(myT-myS)*.035;
+    var t=performance.now()/1000,ang=t*.012,r=20-p*6;
+    camera.position.x=Math.sin(ang)*r+mxS*1.5;
+    camera.position.y=Math.cos(t*.018)*.4-myS*1.0;
     camera.position.z=Math.cos(ang)*r;
     camera.lookAt(0,0,0);
   }
