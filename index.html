@@ -22,10 +22,47 @@ button{font:inherit;background:none;border:none;color:inherit;cursor:none;}
 
 #cursor-canvas{position:fixed;inset:0;z-index:9999;pointer-events:none;width:100%;height:100%;}
 
-#loader{position:fixed;inset:0;z-index:8000;background:var(--bg);transition:opacity .7s ease,visibility .7s;}
+#loader{position:fixed;inset:0;z-index:8000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transition:opacity .9s cubic-bezier(.4,0,.2,1),visibility .9s;}
 #loader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
-.load-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(240,237,230,.07);}
-.load-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--amber));transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+
+/* AAZ letters */
+.aaz-text{display:flex;gap:0;overflow:hidden;}
+.aaz-letter{
+  font-family:'Poppins',sans-serif;
+  font-size:clamp(5rem,18vw,12rem);
+  font-weight:700;
+  letter-spacing:-.04em;
+  line-height:1;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(240,237,230,.15);
+  position:relative;
+  overflow:hidden;
+}
+/* fill sweep per letter */
+.aaz-letter::after{
+  content:attr(data-l);
+  position:absolute;inset:0;
+  font-family:'Poppins',sans-serif;
+  font-size:inherit;font-weight:inherit;letter-spacing:inherit;
+  color:var(--cream);
+  clip-path:inset(0 100% 0 0);
+  transition:clip-path .7s cubic-bezier(.76,0,.24,1);
+}
+.aaz-letter.filled::after{clip-path:inset(0 0% 0 0);}
+
+/* progress bar at bottom */
+.load-bar{position:absolute;bottom:0;left:0;right:0;height:1px;background:rgba(240,237,230,.06);}
+.load-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--amber));transition:width 1.8s cubic-bezier(.4,0,.2,1);}
+
+/* tagline under letters */
+.load-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--muted);
+  opacity:0;transform:translateY(8px);
+  transition:opacity .6s ease,transform .6s ease;
+}
+.load-tag.show{opacity:1;transform:none;}
 
 #bg-canvas{position:fixed;inset:0;z-index:0;width:100%;height:100%;}
 #vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 40%,transparent 15%,rgba(6,7,9,.8) 75%);}
@@ -170,6 +207,12 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:22px
 <canvas id="cursor-canvas" aria-hidden="true"></canvas>
 
 <div id="loader">
+  <div class="aaz-text" aria-label="AAZ">
+    <span class="aaz-letter" data-l="A">A</span>
+    <span class="aaz-letter" data-l="A">A</span>
+    <span class="aaz-letter" data-l="Z">Z</span>
+  </div>
+  <div class="load-tag">Aazim Haris &mdash; Portfolio</div>
   <div class="load-bar"><div class="load-fill"></div></div>
 </div>
 
@@ -413,12 +456,23 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:22px
 (function(){
 'use strict';
 
-/* LOADER */
-var loader=document.getElementById('loader');
-var loadFill=document.querySelector('.load-fill');
-setTimeout(function(){if(loadFill)loadFill.style.width='100%';},60);
-window.addEventListener('load',function(){
-  setTimeout(function(){if(loader)loader.classList.add('hidden');},1400);
+/* LOADER — AAZ staggered fill */
+var loader   = document.getElementById('loader');
+var letters  = document.querySelectorAll('.aaz-letter');
+var loadFill = document.querySelector('.load-fill');
+var loadTag  = document.querySelector('.load-tag');
+
+/* stagger each letter: A at 100ms, A at 300ms, Z at 500ms */
+letters.forEach(function(l, i){
+  setTimeout(function(){ l.classList.add('filled'); }, 120 + i * 200);
+});
+/* tagline fades in after last letter */
+setTimeout(function(){ if(loadTag) loadTag.classList.add('show'); }, 780);
+/* progress bar sweeps */
+setTimeout(function(){ if(loadFill) loadFill.style.width = '100%'; }, 60);
+
+window.addEventListener('load', function(){
+  setTimeout(function(){ if(loader) loader.classList.add('hidden'); }, 2000);
 });
 
 /* SMOOTH TRAIL CURSOR */
